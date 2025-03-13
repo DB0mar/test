@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MFleet</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    .navbar {
+      background-color: rgba(0, 0, 0, 0.9);
+      color: white;
+      padding: 0.5rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: fixed;
+      width: 100%;
+      top: 0;
+      left: 0;
+      z-index: 1000;
+      transition: background-color 0.3s ease;
+    }
+
+    .navbar.transparent {
+      background-color: rgba(0, 0, 0, 0);
+    }
+
+    .navbar .logo img {
+      height: 35px;
+    }
+
+    .navbar .menu {
+      display: flex;
+      gap: 1.5rem;
+      align-items: center;
+    }
+
+    .menu-item button {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 0.95rem;
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      cursor: pointer;
+    }
+
+    .chevron {
+      transition: transform 0.4s ease;
+    }
+
+    .dropdown {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background: white;
+      color: black;
+      padding: 0.5rem;
+      width: 200px;
+      display: none;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      border-radius: 0.25rem;
+      z-index: 10;
+    }
+
+    .menu-item:hover .dropdown {
+      display: block;
+    }
+
+    .menu-item:hover .chevron {
+      transform: rotate(180deg);
+    }
+
+    .dropdown a {
+      text-decoration: none;
+      color: black;
+      display: block;
+      padding: 0.5rem 0;
+      font-size: 0.85rem;
+    }
+
+    .dropdown a:hover {
+      background: #e3e5e9c4;
+    }
+
+    .navbar .actions {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+    }
+
+    .navbar .actions button {
+      background-color: #0cb1fa;
+      border: none;
+      color: white;
+      padding: 0.4rem 0.8rem;
+      border-radius: 0.25rem;
+      font-size: 0.9rem;
+      cursor: pointer;
+    }
+
+    .navbar .actions button:hover {
+      background-color: #0b89bf;
+    }
+
+    /* Hamburger menu styles */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+    }
+
+    .hamburger div {
+      width: 22px;
+      height: 3px;
+      background-color: white;
+      margin: 4px 0;
+      transition: 0.4s;
+    }
+
+    /* Mobile menu */
+    @media (max-width: 768px) {
+      .navbar {
+        padding: 0.5rem 1rem;
+      }
+      
+      .navbar .menu {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        background-color: rgba(0, 0, 0, 0.9);
+        position: absolute;
+        top: 50px;
+        left: 0;
+        z-index: 1;
+      }
+
+      .navbar .menu.active {
+        display: flex;
+      }
+
+      .hamburger {
+        display: flex;
+      }
+
+      .navbar .actions {
+        display: none;
+      }
+    }
+
+    .hero-image {
+      background-image: url("../ProjectMF/images/site-images/zoshua-colah-zArlHWHtgoI-unsplash.jpg");
+      background-color: #cccccc;
+      height: 500px;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+      position: relative;
+    }
+
+    .hero-text {
+      text-align: center;
+      position: absolute;
+      top: 50%;
+      left: 36%;
+      transform: translate(-50%, -50%);
+      color: white;
+    }
+
+    /* General Styling */
+.content-section {
+    text-align: center;
+    padding: 60px 20px;
+    background-color: #f8f9fa;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.section-title {
+    font-size: 2rem;
+    color: #333;
+}
+
+.section-subtitle {
+    font-size: 1.2rem;
+    color: #777;
+    margin-bottom: 40px;
+}
+
+/* Card Layout */
+.card-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.card {
+    width: 200px;
+    min-height: 150px;
+    perspective: 1000px;
+}
+
+.card-inner {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.6s ease;
+}
+
+.card:hover .card-inner {
+    transform: rotateY(180deg);
+}
+
+.card-front, 
+.card-back {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    backface-visibility: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.card-front {
+    background: #08487b;
+    color: white;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.card-back {
+    background: #f7f7f7;
+    color: #333;
+    font-size: 1rem;
+    transform: rotateY(180deg);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .card-container {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+/* Footer Start */
+footer {
+  position: relative;
+  overflow: hidden;
+  font-size: 1.2rem; /* Adjusted to standard size */
+  background-color: #222;
+  color: #fff;
+  padding: 40px 0;
+  clip-path: polygon(0 5%, 100% 0, 100% 100%, 0 100%);
+  text-align: center;
+  font-family: Arial, sans-serif;
+}
+
+.footer-container {
+  display: grid;
+  grid-template-areas: 
+      "column1 column1 vl column2 column3 column4";
+  grid-template-columns: 1fr 1fr 0.05fr 1fr 1fr 1fr;
+  gap: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  align-items: start;
+}
+
+.footer-column {
+  text-align: left;
+}
+
+.footer-column:first-child {
+  grid-area: column1;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.footer-vl {
+  grid-area: vl;
+  width: 1px;
+  background-color: grey;
+  height: 80%;
+  justify-self: center;
+}
+
+.footer-column:nth-child(2) {
+  grid-area: column2;
+}
+
+.footer-column:nth-child(3) {
+  grid-area: column3;
+}
+
+.footer-column:nth-child(4) {
+  grid-area: column4;
+}
+
+.footer-column h3 {
+  font-size: 1.4rem; /* Adjusted heading size */
+  margin-bottom: 10px;
+}
+
+.footer-column ul {
+  list-style: none;
+  padding: 0;
+}
+
+.footer-column ul li {
+  font-size: 1rem; /* Standardized text size */
+  margin-bottom: 8px;
+}
+
+.footer-column ul li a {
+  color: #bbb;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.footer-column ul li a:hover {
+  color: #0cb1fa;
+}
+
+.footer-logo img{
+  height: 50px;
+  margin-bottom: 10px;
+  position: absolute;
+  left: 5%;
+  top: 25%;
+}
+
+.footer-column p {
+  position: center;
+  margin: 5px 0;
+  font-size: 1rem;
+}
+
+.footer-column p:first-child {
+  font-size: 1.2rem;
+  color: #0cb1fa;
+}
+
+.footer-bottom {
+  font-size: 1rem;
+  margin-top: 20px;
+  padding-top: 15px;
+  border-top: 1px solid #444;
+}
+
+.footer-bottom a {
+  color: #bbb;
+  text-decoration: none;
+  margin: 0 5px;
+  transition: color 0.3s ease;
+}
+
+.footer-bottom a:hover {
+  color: #0cb1fa;
+}
+
+.social-icons {
+  margin-top: 10px;
+}
+
+.social-icons a {
+  font-size: 1.8rem;
+  margin: 0 10px;
+  color: #bbb;
+  transition: color 0.3s ease;
+}
+
+.social-icons a:hover {
+  color: #0cb1fa;
+}
+
+/* Social media colors */
+.social-icons a.youtube:hover i { color: #FF0000; }
+.social-icons a.linkedin:hover i { color: #0077B5; }
+.social-icons a.twitter:hover i { color: #000000; }
+.social-icons a.facebook:hover i { color: #1877F2; }
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .footer-container {
+    grid-template-areas: 
+        "column1"
+        "column2"
+        "column3"
+        "column4";
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .footer-vl {
+    display: none;
+  }
+
+  .footer-column {
+    align-items: center;
+    text-align: center;
+  }
+
+  .social-icons {
+    justify-content: center;
+  }
+}
+
+  </style>
+</head>
+<body>
+  <nav class="navbar" id="navbar">
+    <div class="logo">
+      <img src="../ProjectMF/images/site-images/new-000MIFLEET-LOGO-small.png" alt="MFleet Logo">
+    </div>
+
+    <div class="hamburger" onclick="toggleMenu()">
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+
+    <div class="menu">
+      <div class="menu-item">
+        <button>Solutions <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" stroke="#0cb1fa">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        </button>
+        <div class="dropdown">
+          <a href="#">Real-Time Fleet Tracking</a>
+          <a href="#">Analytics For Optimization</a>
+          <a href="#">Video Telematics</a>
+        </div>
+      </div>
+
+      <div class="menu-item">
+        <button>Products <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" stroke="#0cb1fa">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        </button>
+        <div class="dropdown">
+          <a href="#">OBDII Devices</a>
+          <a href="#">Dash Cameras</a>
+          <a href="#">Sensors</a>
+        </div>
+      </div>
+
+      <div class="menu-item">
+        <button>Software <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" stroke="#0cb1fa">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        </button>
+        <div class="dropdown">
+          <a href="#">MiFleet Platform</a>
+          <a href="#">Add-Ons</a>
+        </div>
+      </div>
+
+      <div class="menu-item">
+        <button>Support <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" stroke="#0cb1fa">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+          </svg>
+        </button>
+        <div class="dropdown">
+          <a href="#">Installation Guides</a>
+          <a href="#">FAQs</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button>Login <i class="fas fa-user"></i></button>
+      <button>Bill Pay <i class="fas fa-dollar-sign"></i></button>
+    </div>
+  </nav>
+
+  <div class="hero-image">
+    <div class="hero-text">
+      <h1>Fleet Management Made Easy</h1>
+      <button>Learn More</button>
+    </div>
+  </div>
+
+  <section class="content-section">
+    <div class="container">
+        <h2 class="section-title">Select from our services...</h2>
+<p class="section-subtitle">Advanced fleet tracking solutions designed for efficiency and performance.</p>
+
+<div class="card-container">
+    <div class="card">
+        <div class="card-inner">
+            <div class="card-front">
+                <h3>Real-Time Tracking</h3>
+            </div>
+            <div class="card-back">
+                <p>Monitor your fleet with real-time GPS tracking, ensuring optimal route planning and efficiency.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-inner">
+            <div class="card-front">
+                <h3>Fuel Management</h3>
+            </div>
+            <div class="card-back">
+                <p>Reduce fuel costs with smart analytics and fuel card integration for seamless expense tracking.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-inner">
+            <div class="card-front">
+                <h3>Driver Safety</h3>
+            </div>
+            <div class="card-back">
+                <p>Ensure driver safety with AI-powered monitoring, alerts, and compliance tracking.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-inner">
+            <div class="card-front">
+                <h3>Maintenance Alerts</h3>
+            </div>
+            <div class="card-back">
+                <p>Receive proactive maintenance reminders to reduce downtime and extend vehicle lifespan.</p>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</section>
+
+<footer>
+  <div class="footer-container">
+      <!-- Column 1 -->
+      <div class="footer-column">
+          <p>Track your fleet with...</p>
+          <div class=footer-logo><img src="../ProjectMF/images/site-images/new-000MIFLEET-LOGO-small.png" alt="Company Logo">
+      </div>
+        </div>
+      <!-- Vertical Line -->
+      <span class="footer-vl"></span>
+
+      <!-- Column 2 -->
+      <div class="footer-column">
+          <h3>Resources</h3>
+          <ul>
+              <li><a href="#">FAQs</a></li>
+              <li><a href="#">Solutions</a></li>
+              <li><a href="#">Products</a></li>
+              <li><a href="#">Support Center</a></li>
+              <li><a href="#">Help Videos</a></li>
+          </ul>
+      </div>
+
+      <!-- Column 3 -->
+      <div class="footer-column">
+          <h3>Quick Links</h3>
+          <ul>
+              <li><a href="#">Contact Sales</a></li>
+              <li><a href="#">Pay your Bill</a></li>
+              <li><a href="#">MiFleet Login</a></li>
+              <li><a href="#">Surfsight Login</a></li>
+              <li><a href="#">VisionTrack Login</a></li>
+              <li><a href="#">Schedule a Training</a></li>
+          </ul>
+      </div>
+
+      <!-- Column 4 -->
+      <div class="footer-column">
+          <h3 style="color: #0cb1fa;">Contact Us</h3>
+          <p>11021 Via Frontera, Suite C <br>San Diego, CA 920127</p>
+          <p>Phone: (866) 643-5338 <br>Email: sales@mifleet.us</p>
+          <div class="social-icons">
+              <a href="https://www.youtube.com" target="_blank" class="youtube"><i class="fab fa-youtube"></i></a>
+              <a href="https://www.linkedin.com" target="_blank" class="linkedin"><i class="fab fa-linkedin"></i></a>
+              <a href="https://twitter.com" target="_blank" class="twitter"><i class="fab fa-x-twitter"></i></a>
+              <a href="https://www.facebook.com" target="_blank" class="facebook"><i class="fab fa-facebook"></i></a>
+          </div>
+      </div>
+  </div>
+
+  <div class="footer-bottom">
+      <p>Copyright &copy; 2025 MiFleet. All Rights Reserved. | <a href="#">Terms and Conditions</a> | <a href="#">Privacy Policy</a> | <a href="#">Credits</a></p>
+  </div>
+</footer>
+  <script>
+    function toggleMenu() {
+      document.querySelector('.navbar .menu').classList.toggle('active');
+    }
+
+    window.addEventListener("scroll", function () {
+      const navbar = document.getElementById("navbar");
+      if (window.scrollY > 50) {
+        navbar.classList.add("transparent");
+      } else {
+        navbar.classList.remove("transparent");
+      }
+    });
+  </script>
+</body>
+</html>
