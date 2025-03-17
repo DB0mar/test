@@ -1,0 +1,186 @@
+/* General Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+a {
+  text-decoration: none;
+}
+
+h2 {
+  font-family: "Poppins", sans-serif;
+  font-weight: 500;
+}
+
+/* Navbar */
+.navbar {
+  position: sticky;
+  top: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: rgba(4, 4, 17, 0.89);
+  z-index: 10;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.logo {
+  height: 50px;
+}
+
+.navbar-center {
+  display: flex;
+  gap: 25px;
+  align-items: center;
+}
+
+/* Navigation Items */
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  position: relative;
+  color: #f4f4f4;
+  font-size: 0.95rem;
+  padding: 5px 10px;
+  transition: color 0.3s ease;
+}
+
+.nav-item:hover {
+  color: dodgerblue;
+}
+
+/* SVG Arrow Fix */
+.nav-item svg {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  fill: dodgerblue;
+}
+
+/* Dropdown Menu */
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  display: none;
+  background-color: #f9f9f9;
+  list-style: none;
+  padding: 10px 0;
+  margin: 0;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  z-index: 1100;
+  min-width: 150px;
+}
+
+.dropdown-menu li {
+  padding: 10px 20px;
+}
+
+.dropdown-menu li a {
+  text-decoration: none;
+  color: dodgerblue;
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+.dropdown-menu li a:hover {
+  color: #004aad;
+  background-color: dodgerblue;
+  
+}
+
+/* Show Dropdown on Hover */
+.nav-item:hover .dropdown-menu {
+  display: block;
+}
+
+/* Nav Buttons */
+/* Navbar Right */
+.navbar-right {
+  display: flex;
+  gap: 10px; /* Adjust space between buttons */
+  align-items: center;
+}
+
+/* Nav Buttons */
+.nav-button {
+  background-color: rgba(30, 143, 255, 0.877);
+  border: none;
+  color: white;
+  padding: 2px 7px;
+  border-radius: 25px;
+  cursor: pointer;
+  text-transform: uppercase;
+  font-family: "Poppins", sans-serif;
+  font-weight: 500;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  white-space: nowrap; /* Prevents button text from wrapping */
+  transition: all 0.3s ease;
+}
+
+.nav-button:hover {
+  color: dodgerblue;
+  background-color: #f4f4f4;
+}
+.nav-button:hover svg {
+  fill: dodgerblue;
+}
+
+ /* Hero Section */
+ .hero {
+  height: 50vh; /* Adjust as needed for the desired hero section height */
+  position: relative;
+  overflow: hidden; /* Prevent any child elements from exceeding the hero's bounds */
+  z-index: -1; /* Set a lower z-index than the navbar */
+}
+
+.slideshow {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.slide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 0.8s ease-in-out;
+}
+
+.slide.active {
+  opacity: 1;
+  z-index: 1;
+}
+
+.slide img {
+  float: left;
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Ensures images fill the slide without distortion */
+}
+
+.caption {
+  position: absolute; /* Ensure it's positioned over the hero */
+  bottom: 20px; /* Adjust positioning for better visibility */
+  left: 50%;
+  transform: translateX(-50%);
+  color: white;
+  font-size: 1.5rem;
+  background: rgba(51, 128, 196, 0.44); /* Semi-transparent background */
+  padding: 10px 20px; /* Add padding for better readability */
+  border-radius: 5px;
+  z-index: 2; /* Ensure it appears above the hero but below the navbar */
+}
+
